@@ -2,47 +2,64 @@
 import { useState } from 'react';
 import { supabase, getDeviceId } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
-import { Monitor, ShieldCheck, AlertCircle, Loader2 } from 'lucide-react';
+import { Monitor, ShieldCheck, AlertCircle, Loader2, UserPlus } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function AuthPage() {
+  const [isSignup, setIsSignup] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setSuccess('');
 
     const deviceId = getDeviceId();
     const adminEmail = 'arpitagarwalms@gmail.com';
 
     try {
-      // 1. Sign In
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
-      if (signInError) throw signInError;
+      if (isSignup) {
+        // --- SIGNUP ---
+        const { data, error: signUpError } = await supabase.auth.signUp({
+          email,
+          password,
+          options: { data: { authorized_device_id: deviceId } }
+        });
+        if (signUpError) throw signUpError;
 
-      // 2. Fetch User Profile for Device Check
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', data.user.id)
-        .single();
+        // Create profile record with device fingerprint
+        await supabase.from('profiles').upsert({
+          id: data.user?.id,
+          email,
+          authorized_device_id: deviceId,
+          is_admin: email.toLowerCase() === adminEmail.toLowerCase()
+        });
 
-      if (profileError && profileError.code !== 'PGRST116') throw profileError;
+        setSuccess('Access granted. Check your email to confirm, then sign in.');
+      } else {
+        // --- LOGIN ---
+        const { data, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+        if (signInError) throw signInError;
 
-      // 3. Admin Bypass or Device Match
-      const isAdmin = email.toLowerCase() === adminEmail.toLowerCase();
-      
-      if (!isAdmin && profile && profile.authorized_device_id && profile.authorized_device_id !== deviceId) {
-           await supabase.auth.signOut();
-           throw new Error('UNAUTHORIZED DEVICE: ACCESS LOCKED');
+        // Fetch profile for device check
+        const { data: profile } = await supabase
+          .from('profiles').select('*').eq('id', data.user.id).single();
+
+        const isAdmin = email.toLowerCase() === adminEmail.toLowerCase();
+
+        if (!isAdmin && profile?.authorized_device_id && profile.authorized_device_id !== deviceId) {
+          await supabase.auth.signOut();
+          throw new Error('UNAUTHORIZED DEVICE — ACCESS LOCKED TO ANOTHER MACHINE');
+        }
+
+        router.push('/');
       }
-
-      router.push('/');
     } catch (err: any) {
       setError(err.message.toUpperCase());
     } finally {
@@ -108,7 +125,7 @@ export default function AuthPage() {
           <div style={{ height: '1px', width: '40px', background: '#5c73f2', margin: '0.75rem auto', opacity: 0.6 }} />
         </div>
 
-        <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           {error && (
             <motion.div 
               initial={{ opacity: 0, x: -10 }} 
@@ -196,11 +213,21 @@ export default function AuthPage() {
               transition: 'all 0.3s ease'
             }}
           >
-            {loading ? <Loader2 size={16} className="animate-spin" /> : <><ShieldCheck size={18} /> Enter Terminal</>}
+            {loading ? <Loader2 size={16} className="animate-spin" /> : isSignup ? <><UserPlus size={18} /> Apply for Access</> : <><ShieldCheck size={18} /> Enter Terminal</>}
           </button>
         </form>
 
-        <div style={{ marginTop: '2.5rem', textAlign: 'center', fontSize: '0.65rem', color: 'rgba(255,255,255,0.3)', fontWeight: 700, letterSpacing: '0.05em' }}>
+        <div style={{ marginTop: '2rem', textAlign: 'center', fontSize: '0.7rem', color: 'rgba(255,255,255,0.3)', fontWeight: 700 }}>
+          {isSignup ? 'Already have access?' : 'Need early access?'}{' '}
+          <button
+            type="button"
+            onClick={() => { setIsSignup(!isSignup); setError(''); setSuccess(''); }}
+            style={{ background: 'none', border: 'none', color: '#5c73f2', fontWeight: 900, cursor: 'pointer', fontSize: '0.7rem', textDecoration: 'underline' }}
+          >
+            {isSignup ? 'Sign In' : 'Apply Now'}
+          </button>
+        </div>
+        <div style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.6rem', color: 'rgba(255,255,255,0.15)', fontWeight: 700, letterSpacing: '0.05em' }}>
            SYSTEM CLASSIFIED // AUTHORIZED PERSONNEL ONLY
         </div>
       </motion.div>

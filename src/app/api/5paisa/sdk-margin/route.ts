@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+export const dynamic = 'force-dynamic';
 import { call5paisa } from '@/lib/5paisa';
 
 export async function POST(req: Request) {

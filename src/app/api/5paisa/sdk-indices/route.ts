@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+export const dynamic = 'force-dynamic';
 const { FivePaisaClient } = require('5paisajs');
 
 export async function POST(req: NextRequest) {
