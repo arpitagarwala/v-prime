@@ -1,0 +1,86 @@
+.trackerPanel {
+  padding: 1.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.header h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.orderList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.orderItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(0,0,0,0.3);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--border-color);
+  transition: all 0.2s;
+}
+
+.orderItem:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+.iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconExecuted { color: var(--accent-green); }
+.iconPending { color: var(--accent-blue); }
+
+.orderDetails {
+  flex: 1;
+}
+
+.orderDetails h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.metaData {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.orderPrices {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+}
+
+.price {
+  font-weight: 600;
+}
+
+.qty {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.noData {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 2rem;
+}

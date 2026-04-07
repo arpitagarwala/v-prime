@@ -1,0 +1,175 @@
+.container {
+  background: var(--surface-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+
+/* ─── Table Header ─── */
+.tableHead {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  padding: 0.75rem 1.5rem;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--surface-divider);
+  background: rgba(255,255,255,0.02);
+}
+
+.right { text-align: right; }
+
+/* ─── Row Group ─── */
+.rowGroup {
+  border-bottom: 1px solid var(--surface-divider);
+}
+.rowGroup:last-child { border-bottom: none; }
+
+/* ─── Row ─── */
+.row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  padding: 1rem 1.5rem;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  transition: background 0.15s ease;
+}
+
+.row:hover { background: var(--surface-raised); }
+.rowOpen   { background: rgba(92, 115, 242, 0.04); }
+
+/* ─── Instrument ─── */
+.instrumentCol {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r-sm);
+  background: var(--surface-raised);
+  border: 1px solid var(--surface-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.nameBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.symbolName {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.qty {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ─── Price Columns ─── */
+.priceCol {
+  text-align: right;
+}
+
+.price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ─── P&L Column ─── */
+.pnlCol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.pnlPct {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* ─── Status ─── */
+.profit { color: var(--profit); }
+.loss   { color: var(--loss);   }
+
+/* ─── Expansion Panel ─── */
+.panel {
+  overflow: hidden;
+  background: rgba(92, 115, 242, 0.03);
+  border-top: 1px solid var(--surface-divider);
+}
+
+.panelGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+}
+
+.panelItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.panelLabel {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+}
+
+.panelValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ─── Loading ─── */
+.loading {
+  padding: 3rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  .tableHead, .row {
+    grid-template-columns: 2fr 1fr 1fr;
+  }
+  .tableHead span:nth-child(3),
+  .tableHead span:nth-child(4),
+  .row > *:nth-child(3),
+  .row > *:nth-child(4) {
+    display: none;
+  }
+  .panelGrid { grid-template-columns: repeat(3, 1fr); }
+}

@@ -1,0 +1,190 @@
+.card {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--r-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.dangerGlow {
+  border-color: rgba(255, 23, 68, 0.4);
+  box-shadow: 0 0 20px rgba(255, 23, 68, 0.08);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.titleArea {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.safeIcon {
+  color: var(--accent);
+}
+
+.dangerIcon {
+  color: var(--loss);
+  animation: pulse 2s infinite;
+}
+
+.thresholdBadge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: var(--surface-raised);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--r-sm);
+  color: var(--text-muted);
+  border: 1px solid var(--surface-border);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.thresholdBadge:hover {
+  background: rgba(92, 115, 242, 0.1);
+  color: var(--accent);
+  border-color: rgba(92, 115, 242, 0.3);
+}
+
+.limitEditor {
+  display: flex;
+  align-items: center;
+  background: var(--surface-raised);
+  border: 1px solid var(--accent);
+  border-radius: var(--r-sm);
+  padding: 0 0.4rem;
+}
+
+.limitInput {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 0.65rem;
+  font-weight: 700;
+  width: 40px;
+  padding: 0.2rem 0;
+  outline: none;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.limitPctSign {
+  color: var(--accent);
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.metricItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mLabel {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.mValue {
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-primary);
+}
+
+.dangerText {
+  color: var(--loss);
+}
+
+.trackerArea {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.trackerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+}
+
+.drawdownLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.drawdownAmt {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--loss);
+  font-weight: 600;
+}
+
+.track {
+  width: 100%;
+  height: 6px;
+  background: var(--surface-raised);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: var(--text-muted);
+  border-radius: 4px;
+}
+
+.dangerFill {
+  background: var(--loss);
+}
+
+.alertRibbon {
+  background: rgba(255, 23, 68, 0.1);
+  border: 1px solid rgba(255, 23, 68, 0.2);
+  color: var(--loss);
+  padding: 0.6rem;
+  border-radius: var(--r-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: -0.25rem;
+}
+
+.empty {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}

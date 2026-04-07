@@ -1,0 +1,282 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: var(--surface-base);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--r-lg);
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--surface-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.titleGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.titleGroup h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.accent {
+  color: var(--accent);
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  transition: all 0.2s;
+}
+
+.closeBtn:hover {
+  background: var(--surface-raised);
+  color: var(--text-primary);
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1.25rem;
+}
+
+.sectionHeader h3 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.totalWeight {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--profit);
+}
+
+.invalidWeight {
+  color: var(--loss);
+}
+
+.sliderSection {
+  padding: 1.5rem;
+  border-right: 1px solid var(--surface-border);
+  overflow-y: auto;
+}
+
+.sliderList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.sliderRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sliderLabels {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.sSymbol {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.sValues {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+}
+
+.sCurrent {
+  color: var(--text-muted);
+}
+
+.sArrow {
+  color: var(--surface-border);
+}
+
+.sTarget {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* Custom Range Input Styling */
+.rangeInput {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: var(--surface-raised);
+  border-radius: 3px;
+  outline: none;
+}
+
+.rangeInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(92, 115, 242, 0.4);
+}
+
+.planSection {
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.batchList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.emptyBatch {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-style: italic;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.batchRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--surface-card);
+  padding: 0.75rem 1rem;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--surface-border);
+}
+
+.bLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.bSymbol {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.bActionBuy {
+  color: var(--profit);
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+}
+
+.bActionSell {
+  color: var(--loss);
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+}
+
+.footer {
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+
+.executeBtn {
+  width: 100%;
+  padding: 1rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--r-md);
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.executeBtn:hover:not(:disabled) {
+  background: var(--accent-hover);
+  box-shadow: 0 0 15px rgba(92, 115, 242, 0.4);
+}
+
+.executeBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(1);
+}
+
+.successState {
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+.successIcon {
+  color: var(--profit);
+  margin-bottom: 1rem;
+}
+
+.successState h3 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.successState p {
+  color: var(--text-secondary);
+}
