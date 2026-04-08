@@ -37,8 +37,9 @@ export default function PortfolioDiagnostics() {
   holdings.forEach(h => {
     const mcap = enrichedMap[h.symbol]?.marketCap ?? 0;
     const weight = totalValue > 0 ? h.currentValue / totalValue : 0;
-    if (mcap > 200_000_000_000) capBuckets.large += weight; // > 2000Cr large cap (rough)
-    else if (mcap > 50_000_000_000) capBuckets.mid += weight;
+    // Large Cap > 80,000 Crores, Mid Cap > 25,000 Crores
+    if (mcap > 800_000_000_000) capBuckets.large += weight;
+    else if (mcap > 250_000_000_000) capBuckets.mid += weight;
     else capBuckets.small += weight;
   });
 

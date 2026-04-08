@@ -28,13 +28,33 @@ export async function POST(req: NextRequest) {
           const v8Data = await v8Res.json();
           const meta = v8Data.chart?.result?.[0]?.meta;
           if (meta) {
+            let mcapScraped = null;
+            let peScraped = null;
+            try {
+              const scrRes = await fetch(`https://www.screener.in/company/${sym}/`, {
+                 headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' },
+                 next: { revalidate: 3600 }
+              });
+              const text = await scrRes.text();
+              const mcapMatch = text.match(/Market Cap[\s\S]{1,150}number">([\d,]+)</);
+              const peMatch = text.match(/Stock P\/E[\s\S]{1,150}number">([\d,\.]+)</);
+              
+              if (mcapMatch) {
+                 const mcapCr = parseInt(mcapMatch[1].replace(/,/g, ''), 10);
+                 mcapScraped = mcapCr * 10000000; // Convert Crores to absolute INR
+              }
+              if (peMatch) {
+                 peScraped = parseFloat(peMatch[1].replace(/,/g, ''));
+              }
+            } catch(e) {}
+
             enriched[sym] = {
-              beta: null, pe: null, fwdPe: null, eps: null,
+              beta: null, pe: peScraped, fwdPe: null, eps: null,
               regularMarketPrice: meta.regularMarketPrice,
               regularMarketChange: meta.regularMarketPrice - meta.chartPreviousClose,
               regularMarketChangePercent: ((meta.regularMarketPrice - meta.chartPreviousClose) / meta.chartPreviousClose) * 100,
               regularMarketPreviousClose: meta.chartPreviousClose,
-              marketCap: null, fiftyTwoWeekHigh: meta.fiftyTwoWeekHigh || null, fiftyTwoWeekLow: meta.fiftyTwoWeekLow || null,
+              marketCap: mcapScraped, fiftyTwoWeekHigh: meta.fiftyTwoWeekHigh || null, fiftyTwoWeekLow: meta.fiftyTwoWeekLow || null,
               fiftyDayAverage: null, twoHundredDayAverage: null, dividendYield: null, priceToBook: null, sector: null,
             };
           }
