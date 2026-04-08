@@ -6,9 +6,14 @@ import styles from './GlobalRiskMonitor.module.css';
 import { useState, useEffect } from 'react';
 
 export default function GlobalRiskMonitor() {
-  const { holdings, isLoading } = usePortfolio();
+  const { holdings, isLoading, isLive } = usePortfolio();
   
   const [peakValue, setPeakValue] = useState(0);
+  
+  // Reset peak on connection toggle to clear mock inheritance
+  useEffect(() => {
+    setPeakValue(0);
+  }, [isLive]);
   
   // Editable threshold state
   const [trapThreshold, setTrapThreshold] = useState<number | null>(null);
