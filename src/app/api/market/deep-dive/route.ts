@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import yahooFinance from 'yahoo-finance2';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 5; // Vercel Edge caching prevents rate limit bans on free APIs
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -160,7 +160,7 @@ export async function GET(req: NextRequest) {
         // If Manual V10 fails, fall back to pure anonymous V8
         console.log('[Deep Dive] Manual V10 failed. Yielding to pure V8 chart anonymous map.');
         const v8Res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1d`, {
-          headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }, cache: 'no-store'
+          headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }, next: { revalidate: 3 }
         });
         const v8Data = await v8Res.json();
         const meta = v8Data.chart?.result?.[0]?.meta;

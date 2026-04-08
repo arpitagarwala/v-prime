@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 5; // Vercel Edge caching prevents rate limit bans on free APIs
 
 const SECTORS = [
   { name: 'NIFTY AUTO', symbol: '^CNXAUTO' },

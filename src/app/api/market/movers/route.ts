@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import yahooFinance from 'yahoo-finance2';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 5; // Vercel Edge caching prevents rate limit bans on free APIs
 
 export async function GET() {
   try {

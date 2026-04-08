@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import yahooFinance from 'yahoo-finance2';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 5; // Vercel Edge caching prevents rate limit bans on free APIs
 
 export async function POST(req: NextRequest) {
   try {
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
       const fetchV8 = async (sym: string, ticker: string) => {
         try {
           const v8Res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=1d&range=1d`, {
-            headers: { 'User-Agent': 'Mozilla/5.0' }, cache: 'no-store'
+            headers: { 'User-Agent': 'Mozilla/5.0' }, next: { revalidate: 3 }
           });
           const v8Data = await v8Res.json();
           const meta = v8Data.chart?.result?.[0]?.meta;

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 5; // Vercel Edge caching prevents rate limit bans on free APIs
 
 // Memory cache to prevent repetitive cookie throttling by NSE servers
 let cachedCookies = '';
@@ -50,7 +50,7 @@ export async function GET(request: Request) {
         'Cookie': cookies,
         'Accept': 'application/json, text/javascript, */*; q=0.01'
       },
-      cache: 'no-store'
+      next: { revalidate: 3 }
     });
 
     if (!res.ok) {
