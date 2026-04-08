@@ -65,11 +65,46 @@ export function usePortfolio() {
     { refreshInterval: 3000 }
   );
 
-  // 3. Process Live Data
+  // 3. Fetch Positions for Netting (Important for Same-Day Sells)
+  const posFetcher = async (): Promise<any> => {
+    const res = await fetch('/api/5paisa/sdk-positions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ keys: apiKeys }),
+    });
+    return res.json();
+  };
+
+  const { data: posRaw, isLoading: loadingPos } = useSWR(
+    isLive ? `sdk-pos-${apiKeys?.clientCode || apiKeys?.userId}` : null,
+    posFetcher,
+    { refreshInterval: 3000 }
+  );
+
+  // 4. Process Live Data
   const rawHoldings = holdingsRaw?.success ? (holdingsRaw.data ?? []) : [];
+  const rawPositions = posRaw?.success ? (posRaw.data ?? []) : [];
   
-  const processedHoldings: HoldingItem[] = rawHoldings.map((h: any) => {
-    const qty = Number(h.Quantity ?? h.NetQty ?? 0);
+  // Create a map to net intraday trades against delivery holdings
+  const posMap: Record<string, number> = {};
+  rawPositions.forEach((p: any) => {
+    let sym = p.ScripName || p.Symbol;
+    if (sym) {
+      sym = sym.split(' ')[0]; // Basic clean, e.g. "RELIANCE EQ" -> "RELIANCE"
+      const netQty = Number(p.NetQty ?? 0);
+      posMap[sym] = (posMap[sym] || 0) + netQty;
+    }
+  });
+  
+  const processedHoldings: HoldingItem[] = rawHoldings
+   .map((h: any) => {
+    const sym = h.Symbol ?? 'N/A';
+    const dpQty = Number(h.Quantity ?? h.NetQty ?? 0);
+    const intradayNet = posMap[sym] || 0;
+    
+    // Effective Quantity = DP Holding + Intraday Net (Sells are negative)
+    const qty = dpQty + intradayNet;
+
     const avg = Number(h.AvgRate ?? 0);
     const ltp = Number(h.CurrentPrice ?? h.LastRate ?? 0);
     // V2 Data-Pulse Logic: 5paisa often returns 0 for CloseRate when markets are closed.
@@ -105,7 +140,8 @@ export function usePortfolio() {
       riskRating: 'Low', // Will calculate in 2nd pass
       weightPct: 0,
     };
-  });
+  })
+  .filter((h: HoldingItem) => h.qty > 0); // Drop positions that are completely sold out today
 
   // Calculate Weights and Risk
   const totalValue = processedHoldings.reduce((sum, h) => sum + h.currentValue, 0);
@@ -142,7 +178,7 @@ export function usePortfolio() {
   return {
     stats,
     holdings: isMockMode ? getMockHoldings() : finalHoldings,
-    isLoading: loadingHoldings || loadingMargin,
+    isLoading: loadingHoldings || loadingMargin || loadingPos,
     error: holdingsError || marginError,
     isLive
   };
