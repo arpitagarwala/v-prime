@@ -14,7 +14,7 @@ export default function SectorRadar() {
     return data.success ? data.data : [];
   };
 
-  const { data: sectors = [], isLoading } = useSWR('/api/market/sectors', fetcher, { refreshInterval: 60000 });
+  const { data: sectors = [], isLoading } = useSWR('/api/market/sectors', fetcher, { refreshInterval: 3000 });
 
   return (
     <div style={{ marginBottom: '1.5rem', width: '100%' }}>

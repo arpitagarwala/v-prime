@@ -33,7 +33,7 @@ export function usePortfolioEnrichment(symbols: string[]) {
   };
 
   const { data, isLoading } = useSWR(key, fetcher, {
-    refreshInterval: 300000, // Refresh every 5 min — fundamentals don't change fast
+    refreshInterval: 15000, // Refresh every 5 min — fundamentals don't change fast
     revalidateOnFocus: false,
   });
 

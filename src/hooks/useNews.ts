@@ -30,7 +30,7 @@ export function useNews() {
   const { data: newsRaw, isLoading, error } = useSWR(
     isLive ? `5paisa-ideas` : null,
     newsFetcher,
-    { refreshInterval: 60000 } // Refresh every 1 min for live ideas
+    { refreshInterval: 3000 } // Refresh every 1 min for live ideas
   );
 
   const liveNews = newsRaw?.success && Array.isArray(newsRaw.data) ? newsRaw.data : [];

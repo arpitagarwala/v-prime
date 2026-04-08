@@ -46,7 +46,7 @@ export default function IndexPulse() {
   const { data, isLoading, error } = useSWR(
     `/api/market/indices?index=${encodeURIComponent(activeIndex)}`,
     fetcher,
-    { refreshInterval: 60000 }
+    { refreshInterval: 3000 }
   );
 
   const constituents = data?.success ? data.data : [];

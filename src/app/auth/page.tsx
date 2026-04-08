@@ -181,7 +181,7 @@ export default function AuthPage() {
 
           {/* Password */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            <label style={labelStyle}>Encrypted Key</label>
+            <label style={labelStyle}>Password</label>
             <input type="password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" style={inputStyle} />
           </div>
 

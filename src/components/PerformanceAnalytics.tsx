@@ -9,7 +9,7 @@ export default function PerformanceAnalytics() {
     return res.json();
   };
 
-  const { data, isLoading } = useSWR('market-movers', fetcher, { refreshInterval: 60000 });
+  const { data, isLoading } = useSWR('market-movers', fetcher, { refreshInterval: 3000 });
 
   if (isLoading || !data?.success) {
     return <div className={styles.empty}>Loading market data...</div>;

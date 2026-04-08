@@ -14,7 +14,7 @@ export default function EventRadar() {
     return data.success ? data.data : [];
   };
 
-  const { data: events = [], isLoading } = useSWR('/api/market/hot-events', fetcher, { refreshInterval: 300000 });
+  const { data: events = [], isLoading } = useSWR('/api/market/hot-events', fetcher, { refreshInterval: 15000 });
 
   return (
     <div style={{ marginBottom: '1.5rem', width: '100%' }}>

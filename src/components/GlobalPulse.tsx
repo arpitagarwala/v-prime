@@ -23,7 +23,7 @@ export default function GlobalPulse() {
     return data.success ? data.data : [];
   };
 
-  const { data: items = [], isLoading } = useSWR('/api/market/global', fetcher, { refreshInterval: 30000 });
+  const { data: items = [], isLoading } = useSWR('/api/market/global', fetcher, { refreshInterval: 3000 });
 
   return (
     <div style={{ marginBottom: '1.5rem', width: '100%' }}>

@@ -15,7 +15,7 @@ export default function DiscoveryRadar() {
   };
 
   const { data, isLoading } = useSWR('/api/market/discovery', fetcher, { 
-    refreshInterval: 60000, 
+    refreshInterval: 3000, 
     revalidateOnFocus: false 
   });
 

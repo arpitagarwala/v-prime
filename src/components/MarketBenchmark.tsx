@@ -13,7 +13,7 @@ export default function MarketBenchmark() {
   const sensex = indices.find(i => i.Symbol === 'Sensex');
   
   // Real-time Breadth Calculation from the Index Engine
-  const { data: indexData } = useSWR('/api/market/indices?index=NIFTY%2050', (u) => fetch(u).then(r => r.json()), { refreshInterval: 60000 });
+  const { data: indexData } = useSWR('/api/market/indices?index=NIFTY%2050', (u) => fetch(u).then(r => r.json()), { refreshInterval: 3000 });
   const constituents = indexData?.success ? indexData.data : [];
   const advances = constituents.filter((s: any) => s.pChange > 0).length;
   const declines = constituents.filter((s: any) => s.pChange < 0).length;

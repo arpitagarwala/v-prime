@@ -46,7 +46,7 @@ export function usePortfolio() {
   const { data: holdingsRaw, isLoading: loadingHoldings, error: holdingsError } = useSWR(
     isLive ? `sdk-holding-${apiKeys?.clientCode || apiKeys?.userId}` : null,
     holdingsFetcher,
-    { refreshInterval: 60000 }
+    { refreshInterval: 3000 }
   );
 
   // 2. Fetch Margin/Funds
@@ -62,7 +62,7 @@ export function usePortfolio() {
   const { data: marginRaw, isLoading: loadingMargin, error: marginError } = useSWR(
     isLive ? `sdk-margin-${apiKeys?.clientCode || apiKeys?.userId}` : null,
     marginFetcher,
-    { refreshInterval: 60000 }
+    { refreshInterval: 3000 }
   );
 
   // 3. Process Live Data

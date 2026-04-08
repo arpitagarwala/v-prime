@@ -21,7 +21,7 @@ export function useIndices() {
   const { data: indicesRaw, isLoading, error } = useSWR(
     isLive ? `market-indices` : null,
     indicesFetcher,
-    { refreshInterval: 60000 }
+    { refreshInterval: 3000 }
   );
 
   const processedIndices: IndexData[] = indicesRaw?.success && Array.isArray(indicesRaw.data) ? indicesRaw.data : [];
