@@ -30,7 +30,7 @@ export default function Home() {
       {/* Institutional Header */}
       <div className={styles.terminalHeader}>
         <div className={styles.terminalTitle}>
-          <Monitor size={14} /> <span>V-PRIME</span> TERMINAL // MARKET PULSE
+          <Monitor size={14} /> <span>V-PRIME</span>
         </div>
         
         <StockScanner />
