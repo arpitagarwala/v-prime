@@ -1,13 +1,13 @@
 'use client';
 import { useState, useEffect } from 'react';
-import MarketBenchmark from '@/components/MarketBenchmark';
-import IndexPulse from '@/components/IndexPulse';
 import GlobalPulse from '@/components/GlobalPulse';
 import SectorRadar from '@/components/SectorRadar';
 import EventRadar from '@/components/EventRadar';
 import DiscoveryRadar from '@/components/DiscoveryRadar';
+import IndexPulse from '@/components/IndexPulse';
 import NewsPulse from '@/components/NewsPulse';
 import StockScanner from '@/components/StockScanner';
+import PortfolioPill from '@/components/PortfolioPill';
 import { ChevronRight, Zap, ChevronDown, ChevronUp, Monitor, Clock } from 'lucide-react';
 import { useLayoutStore } from '@/hooks/useLayoutStore';
 import styles from './page.module.css';
@@ -34,14 +34,12 @@ export default function Home() {
         </div>
         
         <StockScanner />
+        <PortfolioPill />
 
         <div className={styles.sessionClock}>
-          <Clock size={14} /> {mounted && time ? time.toLocaleTimeString([], { hour12: false }) : '--:--:--'}
+           <Clock size={14} /> {mounted && time ? time.toLocaleTimeString([], { hour12: false }) : '--:--:--'}
         </div>
       </div>
-
-      {/* Index Ticker (Full Width) */}
-      <MarketBenchmark />
 
       {/* Main Layout */}
       <div className={styles.dashboardGrid}>
@@ -55,10 +53,14 @@ export default function Home() {
 
         {/* Right column -> Pulse Alerts */}
         <div className={styles.sideColumn}>
-          <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', marginBottom: '1.5rem', width: '340px' }}>
-            <div className={styles.cardHeader} onClick={() => toggleModule('research')}>
+          <div style={{ marginBottom: '1.5rem', width: '340px' }}>
+            <div 
+              className={styles.cardHeader}
+              style={{ border: 'none', padding: '0 0 1rem 0' }}
+              onClick={() => toggleModule('research')}
+            >
               <div className={styles.cardHeaderLeft}>
-                <Zap size={15} color="var(--accent)" />
+                <Zap size={14} color="var(--accent)" />
                 <span className={styles.cardTitle}>Live Research Pulse</span>
               </div>
               <div className={styles.collapseToggle}>
@@ -67,9 +69,7 @@ export default function Home() {
             </div>
             
             <div className={`${styles.collapsibleContent} ${isResearchOpen ? styles.expandedContent : ''}`}>
-              <div style={{ flex: 1, padding: '1rem' }}>
-                 <NewsPulse />
-              </div>
+               <NewsPulse />
             </div>
           </div>
           
