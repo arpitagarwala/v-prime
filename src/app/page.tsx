@@ -7,6 +7,7 @@ import SectorRadar from '@/components/SectorRadar';
 import EventRadar from '@/components/EventRadar';
 import DiscoveryRadar from '@/components/DiscoveryRadar';
 import NewsPulse from '@/components/NewsPulse';
+import StockScanner from '@/components/StockScanner';
 import { ChevronRight, Zap, ChevronDown, ChevronUp, Monitor, Clock } from 'lucide-react';
 import { useLayoutStore } from '@/hooks/useLayoutStore';
 import styles from './page.module.css';
@@ -31,6 +32,9 @@ export default function Home() {
         <div className={styles.terminalTitle}>
           <Monitor size={14} /> <span>V-PRIME</span> TERMINAL // MARKET PULSE
         </div>
+        
+        <StockScanner />
+
         <div className={styles.sessionClock}>
           <Clock size={14} /> {mounted && time ? time.toLocaleTimeString([], { hour12: false }) : '--:--:--'}
         </div>

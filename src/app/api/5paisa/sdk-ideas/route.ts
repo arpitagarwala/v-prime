@@ -13,13 +13,20 @@ export async function POST(req: NextRequest) {
     const client = new FivePaisaClient(keys);
     await client.set_access_token(keys.accessToken);
 
-    // Fetch Buy Ideas and Trade Ideas (Research)
+    // Simple 3000ms timeout wrapper to intercept unhandled promise hangs in 5paisajs
+    const withTimeout = (promise: Promise<any>, ms: number) => {
+      let timeoutId: NodeJS.Timeout;
+      const timeoutPromise = new Promise<any>((_, reject) => {
+        timeoutId = setTimeout(() => reject(new Error('5Paisa API Timeout')), ms);
+      });
+      return Promise.race([promise, timeoutPromise]).finally(() => clearTimeout(timeoutId));
+    };
+
     try {
-      const buyIdeasDf = await client.ideas_buy();
-      const tradeIdeasDf = await client.ideas_trade();
+      const buyIdeasDf = await withTimeout(client.ideas_buy(), 3000).catch(() => []);
+      const tradeIdeasDf = await withTimeout(client.ideas_trade(), 3000).catch(() => []);
 
       // Convert pandas-style objects to standard arrays if needed
-      // The 5paisajs SDK uses node-pandas which provides a .to_json() or we can access the underlying data
       const buyNews = Array.isArray(buyIdeasDf) ? buyIdeasDf : [];
       const tradeNews = Array.isArray(tradeIdeasDf) ? tradeIdeasDf : [];
 
