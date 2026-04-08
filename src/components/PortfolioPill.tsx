@@ -33,7 +33,7 @@ export default function PortfolioPill() {
   const SensexIcon = benchmarks.sensex.changePct >= 0 ? TrendingUp : TrendingDown;
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', marginRight: '1rem', gap: '0.75rem' }}>
+    <div style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', marginRight: '1rem', gap: '0.75rem', flexShrink: 0, whiteSpace: 'nowrap' }}>
       
       {/* Live Benchmark Pills */}
       <div style={{ display: 'flex', gap: '0.5rem', marginRight: '0.5rem' }}>
