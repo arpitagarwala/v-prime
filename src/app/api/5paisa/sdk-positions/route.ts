@@ -27,7 +27,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: data.head.statusDescription, success: false });
     }
 
-    return NextResponse.json({ success: true, data: data?.body?.Data || [] });
+    const posData = data?.body?.NetPositionDetail || data?.body?.Data || [];
+    console.log('[positions] Raw payload from 5paisa:', JSON.stringify(posData).substring(0, 500));
+    
+    // Dump locally to read the shape
+    require('fs').writeFileSync('position_debug.json', JSON.stringify(data, null, 2));
+
+    return NextResponse.json({ success: true, data: posData });
   } catch (error: any) {
     console.error('[positions] Proxy error:', error.message);
     return NextResponse.json({ error: error.message }, { status: 500 });
